@@ -33,15 +33,12 @@ public class SPU02E05_Hugo_Gavela_Barberia {
 
         @Override
         public void run() {
-            while(true){
-                /*
-                while(sillas.cola_clientes.isEmpty()){
-                    System.out.println(name+" : No hay ningun cliente, se pone a dormir");
-                    sillas.Dormir();
-                    System.out.println(sillas.cola_clientes.size());
-                }*/
+            while (true) {
+                    while (sillas.cola_clientes.isEmpty()) {
+                        System.out.println(name + " : No hay ningun cliente, se pone a dormir");
+                        sillas.Dormir();
+                }
             }
-           
         }
         
         boolean isOcupado() {
@@ -74,30 +71,32 @@ public class SPU02E05_Hugo_Gavela_Barberia {
 
         @Override
         public void run() {
-            EsperarTiempo();
-            System.out.println(name+ " : Llega a la barberia");
-            while(sillas.sillas_ocupadas == NUMERO_SILLAS){
-                System.out.println(name+" : Barberia llena, se va a pasear al perro");
+            while (true) {
+                EsperarTiempo();
+                System.out.println(name + " : Llega a la barberia");
+                while (sillas.sillas_ocupadas == NUMERO_SILLAS) {
+                    System.out.println(name + " : Barberia llena, se va a pasear al perro");
+                    EsperarTiempo();
+                }
+                sillas.sillas_ocupadas++;
+                System.out.println(name + " : Entra en la barberia");
+                sillas.cola_clientes.add(name);
+                while (sillas.cola_clientes.indexOf(name) != 0) {
+                    System.out.println(name + " : Esperando su turno");
+                    sillas.Dormir();
+                }
+                int id = obtenerBarbero();
+                while (id == -1) {
+                    System.out.println(name + " : Barberos ocupados");
+                    sillas.Dormir();
+                    id = obtenerBarbero();
+                }
+                barberos[id].Cortar(name);
+                System.out.println(name + " : Sale de la berberia");
+                barberos[id].ocupado = false;
+                sillas.Despertar();
                 EsperarTiempo();
             }
-            sillas.sillas_ocupadas++;
-            System.out.println(name+ " : Entra en la barberia");
-            sillas.cola_clientes.add(name);
-            while(sillas.cola_clientes.indexOf(name) != 0){
-                System.out.println(name +" : Esperando su turno");
-                sillas.Dormir();
-            }
-            int id = obtenerBarbero();
-            while(id == -1){
-                System.out.println(name+" : Barberos ocupados");
-                sillas.Dormir();
-                id = obtenerBarbero();
-            }
-            barberos[id].Cortar(name);
-            System.out.println(name+" : Sale de la berberia");
-            barberos[id].ocupado = false;
-            sillas.Despertar();
-            
         }
         
         void EsperarTiempo(){
@@ -154,6 +153,5 @@ public class SPU02E05_Hugo_Gavela_Barberia {
             clientes[i].start();
         }
     }
-    
-    
+
 }

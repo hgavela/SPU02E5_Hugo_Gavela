@@ -26,12 +26,10 @@ public class SPU02E05_Hugo_Gavela {
     
     public static void main(String[] args) {
         try {
-            String palabra = "";
             int id = opcion();
-            boolean isWindows = detectarOs();
-            if (isWindows) {
+            if (detectarOs("Windows")) {
                 fill = new ProcessBuilder("java",OPCION[id]).start();
-            } else{
+            } else if (detectarOs("Ubuntu")){
                 fill = new ProcessBuilder("/usr/bin/java", OPCION[id]).start();
             }
             
@@ -50,8 +48,8 @@ public class SPU02E05_Hugo_Gavela {
         }
     }
     
-    static boolean detectarOs(){
-        return System.getProperty("os.name").startsWith("Windows");
+    static boolean detectarOs(String n){
+        return System.getProperty("os.name").startsWith(n);
     }
     
     static int opcion(){
